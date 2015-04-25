@@ -28,14 +28,16 @@ app.get('/api', function (req, res) {
 			return res.status(500).send(err);
 		}
 
+		let filteredData = _.map(data, function (massage) {
+			return {
+				time: massage.time,
+				name: massage.name,
+				bid: massage.bid
+			};
+		});
+
 		res.send({
-			massages: _.map(data, function (massage) {
-				return {
-					time: massage.time,
-					name: massage.name,
-					bid: massage.bid
-				};
-			})
+			massages: _.sortBy(filteredData, 'time')
 		});
 	});
 });
