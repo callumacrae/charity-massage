@@ -2,14 +2,18 @@
 
 const argv = require('minimist')(process.argv.slice(2));
 const express = require('express');
+const bluebird = require('bluebird');
 const app = express();
 
 app.use(express.static('app'));
 
-app.listen(argv.port || 3000, function (err) {
-	if (err) {
-		throw err;
-	}
+let serverPromise = bluebird.promisify(app.listen.bind(app))(argv.port || 3000);
 
-	console.log('Server started on port %s!', argv.port);
-});
+bluebird.join(serverPromise)
+	.then(function () {
+		console.log('Server started on port %s!', argv.port);
+	})
+	.catch(function () {
+		console.log('Failed to start :(');
+		process.exit(1);
+	});
