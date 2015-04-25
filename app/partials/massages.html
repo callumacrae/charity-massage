@@ -1,0 +1,17 @@
+<header>
+	<h1>Charity Massage</h1>
+	<p>Tap to bid on a massage</p>
+</header>
+
+<ul class="items">
+	<li ng-show="!massages">Loading massage slots…</li>
+	<li ng-repeat="massage in massages" ui-sref="bid({ time: massage.time })">
+		<strong>{{ massage.time }}:</strong>
+
+		<span ng-show="massage.bid">
+			{{ massage.name }}
+			<span class="u-pull-right">£{{ massage.bid }}</span>
+		</span>
+		<span ng-hide="massage.bid" class="u-pull-right">Available</span>
+	</li>
+</ul>

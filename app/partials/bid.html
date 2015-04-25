@@ -1,0 +1,39 @@
+<header>
+	<h1>Bid on {{ time }}</h1>
+
+	<p>
+		<span ng-show="slot.bid">The current bid is £{{ slot.bid }} by {{ slot.name }}.</span>
+		<span ng-hide="slot.bid">This slot is free!</span>
+		What would you like to bid?
+	</p>
+</header>
+
+<form ng-submit="makeBid()">
+	<table class="u-full-width">
+		<tr>
+			<td><label for="bid">Your bid:</label></td>
+			<td>
+				<span class="in-field">£</span>
+				<input type="number" ng-model="data.bid" id="bid" class="u-full-width">
+			</td>
+		</tr>
+		<tr>
+			<td><label for="name">Your name:</label></td>
+			<td><input type="text" ng-model="data.name" id="name" class="u-full-width"></td>
+		</tr>
+		<tr>
+			<td><label for="email">Your email:</label></td>
+			<td><input type="email" ng-model="data.email" id="email" class="u-full-width"></td>
+		</tr>
+		<tr>
+			<td><label for="number">Your digits:</label></td>
+			<td><input type="tel" ng-model="data.tel" id="number" class="u-full-width"></td>
+		</tr>
+	</table>
+
+	<button class="button-primary u-full-width">BID</button>
+</form>
+
+<strong ng-show="booked">Success! You've placed your bid.</strong>
+
+<a ui-sref="massages">Return to the schedule</a>

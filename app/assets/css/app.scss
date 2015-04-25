@@ -18,3 +18,21 @@ header {
 		border-radius: 5px;
 	}
 }
+
+td {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.in-field {
+	position: absolute;
+
+	margin-left: 6px;
+	margin-top: 8px;
+
+	font-size: 15.5px;
+
+	& + input {
+		padding-left: 1em;
+	}
+}
