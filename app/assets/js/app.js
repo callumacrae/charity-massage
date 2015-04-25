@@ -18,7 +18,7 @@ app.controller('MassageController', function (massageFactory, $scope) {
 
 app.controller('BiddingController', function (massageFactory, $scope, $stateParams) {
 	let time = $scope.time = $stateParams.time;
-	$scope.data = {};
+	$scope.data = { time: time };
 
 	$scope.makeBid = function makeBid() {
 		massageFactory.bookMassage($scope.data)
@@ -43,34 +43,25 @@ app.controller('BiddingController', function (massageFactory, $scope, $statePara
 		});
 });
 
-app.factory('massageFactory', function ($q) {
+app.factory('massageFactory', function ($q, $http) {
 	const factory = {};
 
 	factory.getMassages = function getMassages() {
+		// What the fuck?
 		return $q(function (resolve) {
-			setTimeout(function () {
-				resolve({
-					massages: [
-						{ time: '19:00', name: '', bid: 0 },
-						{ time: '19:20', name: 'Dylan', bid: 5 },
-						{ time: '19:40', name: 'Callum', bid: 3 },
-						{ time: '20:00', name: 'Carl', bid: 5 },
-						{ time: '20:20', name: '', bid: 0 },
-						{ time: '20:40', name: 'Lillian', bid: 5 },
-						{ time: '21:00', name: 'Chad', bid: 20 },
-						{ time: '21:20', name: 'Chad', bid: 15 },
-						{ time: '21:40', name: '', bid: 0 }
-					]
+			$http.get('/api')
+				.success(function (data) {
+					resolve(data);
 				});
-			}, 500);
 		});
 	};
 
-	factory.bookMassage = function bookMassage() {
+	factory.bookMassage = function bookMassage(data) {
 		return $q(function (resolve) {
-			setTimeout(function () {
-				resolve({ success: true });
-			}, 500);
+			$http.post('/api', data)
+				.success(function (data) {
+					resolve(data);
+				});
 		});
 	};
 
