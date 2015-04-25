@@ -10,7 +10,7 @@ module.exports = function (gulp, plugins, constants) {
 
 			.pipe(plugins.sass())
 			.pipe(plugins.autoprefixer())
-			.pipe(plugins.minifyCss())
+			//.pipe(plugins.minifyCss())
 
 			.pipe(plugins.sourcemaps.write('./'))
 			.pipe(gulp.dest(constants.BUILD_PATH));

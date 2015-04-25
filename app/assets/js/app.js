@@ -1,4 +1,11 @@
-console.log( 'test' );
+const angular = require('angular');
+const uiRouter = require('angular-ui-router');
 
+const routes = require('./routes');
 
-console.log('abc');
+require('./forfeits');
+
+let app = angular.module('score', [uiRouter, 'score.forfeits'])
+	.config(routes);
+
+module.exports = app;

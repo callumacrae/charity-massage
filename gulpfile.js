@@ -39,7 +39,8 @@ gulp.task('build', ['css', 'js']);
 gulp.task('default', ['build', 'run'], function () {
 	let files = [
 		path.join(constants.BUILD_PATH, '**/*.{js,css}'),
-		path.join(ASSET_PATH, '**/*.{html,jpg,png}')
+		path.join(ASSET_PATH, '**/*.{html,jpg,png}'),
+		path.join('./app/partials/*.html')
 	];
 
 	browserSync.init(files, {

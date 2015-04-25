@@ -21,7 +21,7 @@ module.exports = function (gulp, plugins, constants) {
 			.pipe(plugins.plumber({ errorHandler: constants.ERROR_HANDLER }))
 			.pipe(plugins.sourcemaps.init({ loadMaps: true }))
 
-			.pipe(plugins.uglify())
+			//.pipe(plugins.uglify())
 
 			.pipe(plugins.sourcemaps.write('./'))
 			.pipe(gulp.dest(constants.BUILD_PATH));

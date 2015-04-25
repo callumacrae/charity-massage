@@ -1,0 +1,18 @@
+<header>
+	<h1>Forfeits</h1>
+</header>
+
+<p>
+	<span ng-show="total">Your current total: £{{ total }}</span>
+	<a>&nbsp;</a>
+	<a href="#" class="u-pull-right">View leaderboard</a>
+</p>
+
+<ul class="items">
+	<li ng-show="!forfeits">Loading your forfeits…</li>
+	<li ng-repeat="forfeit in forfeits" ng-click="addForfeit(forfeit)">
+		{{ forfeit.name }}: £{{ forfeit.forfeit }}
+	</li>
+</ul>
+
+<a href="#" ng-click="alert('test')">test</a>

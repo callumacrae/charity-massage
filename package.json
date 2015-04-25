@@ -1,5 +1,6 @@
 {
-  "name": "bh2015",
+  "name": "score-for-charity",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -11,7 +12,10 @@
   "author": "Callum Macrae <callum@macr.ae>",
   "license": "MIT",
   "dependencies": {
+    "angular": "^1.3.15",
+    "angular-ui-router": "^0.2.14",
     "bluebird": "^2.9.24",
+    "errorhandler": "^1.3.5",
     "express": "^4.12.3",
     "lodash": "^3.7.0",
     "minimist": "^1.1.1"
