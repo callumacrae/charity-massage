@@ -87,7 +87,8 @@ app.use(function (req, res) {
 	res.sendFile(path.join(__dirname, '../app/index.html'));
 });
 
-let serverPromise = bluebird.promisify(app.listen.bind(app))(argv.port || 3000);
+let port = argv.port || config.server.port;
+let serverPromise = bluebird.promisify(app.listen.bind(app))(port);
 
 bluebird.join(mongoPromise, serverPromise)
 	.then(function () {

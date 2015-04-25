@@ -1,0 +1,6 @@
+server:
+  port: 3000
+twilio:
+  accountSid:
+  authToken:
+  fromNumber: +441183100840
