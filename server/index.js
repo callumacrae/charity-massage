@@ -7,8 +7,14 @@ const bluebird = require('bluebird');
 const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
 const express = require('express');
+const fs = require('graceful-fs');
 const MongoClient = require('mongodb').MongoClient;
+const twilio = require('twilio');
+const yaml = require('js-yaml');
+
 const app = express();
+const config = yaml.safeLoad(fs.readFileSync('./config.yml', 'utf8'));
+const client = twilio(config.twilio.accountSid, config.twilio.authToken);
 
 let env = process.env.NODE_ENV || 'development';
 if (env === 'development') {
@@ -57,7 +63,21 @@ app.post('/api', function (req, res) {
 });
 
 app.post('/api/start', function (req, res) {
-	res.send({ success: true });
+	let find = collection.find(req.body);
+	bluebird.promisify(find.toArray.bind(find))()
+		.then(function (data) {
+			return client.messages.create({
+				to: data[0].tel,
+				from: config.twilio.fromNumber,
+				body: 'Hey! You have a fucking massage'
+			});
+		})
+		.then(function () {
+			res.send({ success: true });
+		})
+		.catch(function (err) {
+			return res.status(500).send(err);
+		});
 });
 
 app.use('/assets', express.static('app/assets'));

@@ -6,7 +6,7 @@ let admin = angular.module('massages.admin', ['massages.massages']);
 
 admin.controller('AdminController', function (adminFactory, massageFactory, $scope) {
 	$scope.startMassage = function (massage) {
-		adminFactory.startMassage(massage.time)
+		adminFactory.startMassage(massage)
 			.then(function (data) {
 				if (data.success) {
 					massage.started = true;
@@ -23,9 +23,9 @@ admin.controller('AdminController', function (adminFactory, massageFactory, $sco
 admin.factory('adminFactory', function ($q, $http) {
 	const factory = {};
 
-	factory.startMassage = function (time) {
+	factory.startMassage = function (massage) {
 		return $q(function (resolve) {
-			$http.post('/api/start', { time: time })
+			$http.post('/api/start', massage)
 				.success(function (data) {
 					resolve(data);
 				});
