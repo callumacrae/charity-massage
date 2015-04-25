@@ -13,6 +13,11 @@ module.exports = function ($urlRouterProvider, $stateProvider, $locationProvider
 			url: '/bid/{time:\\d{2}:\\d{2}}',
 			templateUrl: 'partials/bid.html',
 			controller: 'BiddingController'
+		})
+		.state('admin', {
+			url: '/admin',
+			templateUrl: 'partials/admin.html',
+			controller: 'AdminController'
 		});
 
 	$locationProvider.html5Mode(true);

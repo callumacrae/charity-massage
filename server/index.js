@@ -56,6 +56,10 @@ app.post('/api', function (req, res) {
 	});
 });
 
+app.post('/api/start', function (req, res) {
+	res.send({ success: true });
+});
+
 app.use('/assets', express.static('app/assets'));
 app.use('/partials', express.static('app/partials'));
 
