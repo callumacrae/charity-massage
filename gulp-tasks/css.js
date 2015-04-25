@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = function (gulp, plugins, constants) {
 	return function () {
-		return gulp.src(path.join(constants.ASSET_PATH, 'css/app.scss'))
+		return gulp.src(path.join(constants.CSS_PATH, 'app.scss'))
 			.pipe(plugins.plumber({ errorHandler: constants.ERROR_HANDLER }))
 			.pipe(plugins.sourcemaps.init())
 

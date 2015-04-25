@@ -9,7 +9,7 @@ const source = require('vinyl-source-stream');
 module.exports = function (gulp, plugins, constants) {
 	return function () {
 		var b = browserify({
-			entries: './' + path.join(constants.ASSET_PATH, 'js/app.js'),
+			entries: './' + path.join(constants.JS_PATH, 'app.js'),
 			debug: true,
 			transform: [babelify]
 		});

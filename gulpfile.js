@@ -6,9 +6,6 @@ const chalk = require('chalk');
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 
-const ASSET_PATH = './app/assets';
-const BUILD_PATH = path.join(ASSET_PATH, 'build');
-
 function errorHandler(err) {
 	browserSync.notify(err.message, 3000);
 	plugins.util.log(chalk.red(err.toString()));
@@ -18,15 +15,18 @@ function errorHandler(err) {
 	}
 }
 
+const ASSET_PATH = 'app/assets';
 const constants = {
 	ASSET_PATH: ASSET_PATH,
-	BUILD_PATH: BUILD_PATH,
+	BUILD_PATH: path.join(ASSET_PATH, 'build'),
+	JS_PATH: path.join(ASSET_PATH, 'js'),
+	CSS_PATH: path.join(ASSET_PATH, 'css'),
 	ERROR_HANDLER: errorHandler,
 	PORT: 3055
 };
 
 function getTask(taskName) {
-	let taskPath = path.join('./gulp-tasks', taskName + '.js');
+	let taskPath = path.join('gulp-tasks', taskName + '.js');
 	return require(taskPath)(gulp, plugins, constants);
 }
 
@@ -38,12 +38,14 @@ gulp.task('build', ['css', 'js']);
 
 gulp.task('default', ['build', 'run'], function () {
 	let files = [
-		path.join(BUILD_PATH, '**/*.{js,css}')
+		path.join(constants.BUILD_PATH, '**/*.{js,css}'),
+		path.join(ASSET_PATH, '**/*.{html,jpg,png}')
 	];
 
 	browserSync.init(files, {
 		proxy: 'http://localhost:' + constants.PORT + '/'
 	});
 
-	gulp.watch('./app/assets/js/*.js', ['js']);
+	gulp.watch(path.join(constants.JS_PATH, '*.js'), ['js']);
+	gulp.watch(path.join(constants.CSS_PATH, '*.s{a,c}ss'), ['css']);
 });
