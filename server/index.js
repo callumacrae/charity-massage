@@ -64,7 +64,7 @@ app.post('/api', function (req, res) {
 });
 
 app.post('/api/start', function (req, res) {
-	let find = collection.find(req.body);
+	let find = collection.find({ time: req.body.time });
 	bluebird.promisify(find.toArray.bind(find))()
 		.then(function (data) {
 			let massage = data[0];
