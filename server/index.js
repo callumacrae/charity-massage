@@ -66,10 +66,16 @@ app.post('/api/start', function (req, res) {
 	let find = collection.find(req.body);
 	bluebird.promisify(find.toArray.bind(find))()
 		.then(function (data) {
+			let massage = data[0];
+
+			let exit = 'http://localhost:3000/verify/' + massage.time;
+			let donateLink = 'http://www.justgiving.com/4w350m3/donation/direct/' +
+				`charity/${config.charity}?amount=${massage.bid}&exitUrl=${exit}`;
+
 			return client.messages.create({
-				to: data[0].tel,
+				to: massage.tel,
 				from: config.twilio.fromNumber,
-				body: 'Hey! You have a fucking massage'
+				body: `It's time for your massage! Please make your donation (£${massage.bid}) here: ${donateLink}`
 			});
 		})
 		.then(function () {

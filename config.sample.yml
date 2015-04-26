@@ -4,3 +4,4 @@ twilio:
   accountSid:
   authToken:
   fromNumber: +441183100840
+charity:
