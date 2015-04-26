@@ -8,12 +8,12 @@
 	<li ng-repeat="massage in massages" ng-click="startMassage(massage)">
 		<strong>{{ massage.time }}:</strong>
 
-		<span ng-show="massage.bid">
+		<span ng-show="massage.bid || massage.claimed">
 			{{ massage.name }}
 			<span ng-show="massage.started && !massage.claimed" class="u-pull-right">Started!</span>
 			<span ng-show="massage.claimed" class="u-pull-right">Claimed!</span>
 			<span ng-hide="massage.started || massage.claimed" class="u-pull-right">£{{ massage.bid }}</span>
 		</span>
-		<span ng-hide="massage.bid" class="u-pull-right">Available</span>
+		<span ng-hide="massage.bid || massage.claimed" class="u-pull-right">Available</span>
 	</li>
 </ul>
