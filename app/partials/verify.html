@@ -1,4 +1,8 @@
-<header>
+<header ng-show="success">
 	<h1>I donated!</h1>
 	<p>Please give me my {{ time }} massage :)</p>
 </header>
+
+<p ng-show="success === false">There was a problem :( try again? Did you donate the correct amount?</p>
+
+<p ng-show="!success && success !== false">Verifying…</p>

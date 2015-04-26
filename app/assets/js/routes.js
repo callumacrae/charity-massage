@@ -20,7 +20,7 @@ module.exports = function ($urlRouterProvider, $stateProvider, $locationProvider
 			controller: 'AdminController'
 		})
 		.state('verify', {
-			url: '/verify/{time:\\d{2}:\\d{2}}',
+			url: '/verify/{time:\\d{2}:\\d{2}}/{donationId}',
 			templateUrl: 'partials/verify.html',
 			controller: 'VerifyController'
 		});
