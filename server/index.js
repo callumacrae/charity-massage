@@ -26,7 +26,11 @@ if (env === 'development') {
 }
 
 app.use(bodyParser.json());
-app.use(session({ secret: config.server.sessionSecret }));
+app.use(session({
+	secret: config.server.sessionSecret,
+	resave: false,
+	saveUninitialized: true
+}));
 
 let collection;
 let mongoConnect = bluebird.promisify(MongoClient.connect);
