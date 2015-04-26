@@ -3,6 +3,7 @@
 	<p>Please give me my {{ time }} massage :)</p>
 </header>
 
-<p ng-show="success === false">There was a problem :( try again? Did you donate the correct amount?</p>
-
-<p ng-show="!success && success !== false">Verifying…</p>
+<header ng-show="!success">
+	<p ng-show="success === false">There was a problem :( try again? Did you donate the correct amount?</p>
+	<p ng-show="success !== false">Verifying…</p>
+</header>
