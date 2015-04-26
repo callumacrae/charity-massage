@@ -38,7 +38,8 @@ app.get('/api', function (req, res) {
 			return {
 				time: massage.time,
 				name: massage.name,
-				bid: massage.bid
+				bid: massage.bid,
+				claimed: massage.claimed || false
 			};
 		});
 
@@ -84,6 +85,13 @@ app.post('/api/start', function (req, res) {
 		.catch(function (err) {
 			return res.status(500).send(err);
 		});
+});
+
+app.post('/api/verify', function (req, res) {
+	let time = req.body.time;
+	collection.update({ time: time }, { $set: { claimed: true } }, function () {
+		res.send({ success: true });
+	});
 });
 
 app.use('/assets', express.static('app/assets'));

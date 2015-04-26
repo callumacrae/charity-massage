@@ -18,6 +18,11 @@ module.exports = function ($urlRouterProvider, $stateProvider, $locationProvider
 			url: '/admin',
 			templateUrl: 'partials/admin.html',
 			controller: 'AdminController'
+		})
+		.state('verify', {
+			url: '/verify/{time:\\d{2}:\\d{2}}',
+			templateUrl: 'partials/verify.html',
+			controller: 'VerifyController'
 		});
 
 	$locationProvider.html5Mode(true);

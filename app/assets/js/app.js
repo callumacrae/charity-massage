@@ -6,6 +6,7 @@ const uiRouter = require('angular-ui-router');
 const routes = require('./routes');
 require('./admin');
 require('./massage');
+require('./verify');
 
-angular.module('massages', [uiRouter, 'massages.massages', 'massages.admin'])
+angular.module('massages', [uiRouter, 'massages.massages', 'massages.admin', 'massages.verify'])
 	.config(routes);

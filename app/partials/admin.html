@@ -10,8 +10,9 @@
 
 		<span ng-show="massage.bid">
 			{{ massage.name }}
-			<span ng-show="massage.started" class="u-pull-right">Started!</span>
-			<span ng-hide="massage.started" class="u-pull-right">£{{ massage.bid }}</span>
+			<span ng-show="massage.started && !massage.claimed" class="u-pull-right">Started!</span>
+			<span ng-show="massage.claimed" class="u-pull-right">Claimed!</span>
+			<span ng-hide="massage.started || massage.claimed" class="u-pull-right">£{{ massage.bid }}</span>
 		</span>
 		<span ng-hide="massage.bid" class="u-pull-right">Available</span>
 	</li>
