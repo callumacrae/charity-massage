@@ -1,13 +1,30 @@
+/* global braintree */
+
 'use strict';
 
 const _ = require('lodash');
 const angular = require('angular');
 const massages = angular.module('massages.massages', []);
 
-massages.controller('MassageController', function (massageFactory, $scope) {
+massages.controller('MassageController', function (massageFactory, $scope, $http) {
 	massageFactory.getMassages()
 		.then(function (data) {
 			$scope.massages = data.massages;
+		});
+
+	$http.get('/api/braintree')
+		.success(function (data) {
+			braintree.setup(data.clientToken, 'dropin', {
+				container: 'dropin',
+				onPaymentMethodReceived: function (data) {
+					data.tip = $scope.tip;
+
+					$http.post('/api/braintree', data)
+						.success(function (data) {
+							$scope.tipped = data.success;
+						});
+				}
+			});
 		});
 });
 

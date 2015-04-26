@@ -34,6 +34,7 @@ let mongoPromise = mongoConnect('mongodb://localhost:27017/massages')
 
 require('./api')(app, db);
 require('./api-admin')(app, db);
+require('./braintree')(app, db);
 
 app.use('/assets', express.static('app/assets'));
 app.use('/partials', express.static('app/partials'));
