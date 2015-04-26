@@ -24,10 +24,6 @@
 			<td><input type="text" ng-model="data.name" id="name" class="u-full-width"></td>
 		</tr>
 		<tr>
-			<td><label for="email">Your email:</label></td>
-			<td><input type="email" ng-model="data.email" id="email" class="u-full-width"></td>
-		</tr>
-		<tr>
 			<td><label for="number">Your digits:</label></td>
 			<td><input type="tel" ng-model="data.tel" id="number" class="u-full-width"></td>
 		</tr>
@@ -37,5 +33,6 @@
 </form>
 
 <strong ng-show="booked">Success! You've placed your bid.</strong>
+<strong ng-show="fail">Your bid failed—perhaps someone already placed a higher bid?</strong>
 
 <a ui-sref="massages">Return to the schedule</a>

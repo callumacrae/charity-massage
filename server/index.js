@@ -18,6 +18,8 @@ const app = express();
 const config = yaml.safeLoad(fs.readFileSync('./config.yml', 'utf8'));
 const client = twilio(config.twilio.accountSid, config.twilio.authToken);
 
+const PORT = argv.port || config.server.port;
+
 let env = process.env.NODE_ENV || 'development';
 if (env === 'development') {
 	app.use(errorHandler());
@@ -56,15 +58,39 @@ app.get('/api', function (req, res) {
 });
 
 app.post('/api', function (req, res) {
-	let data = req.body;
+	let newBid = req.body;
 
-	// YOLO YOLO MVP MVP
-	collection.update({ time: data.time }, data, function (err) {
+	collection.find({ time: newBid.time }).toArray(function (err, data) {
 		if (err) {
 			return res.status(500).send(err);
 		}
 
-		res.send({ success: true });
+		let currentBid = data[0];
+
+		if (newBid.bid <= currentBid.bid) {
+			return res.send({ success: false, currentBid: currentBid });
+		}
+
+		collection.update({ time: newBid.time }, newBid, function (err) {
+			if (err) {
+				return res.status(500).send(err);
+			}
+
+			res.send({ success: true });
+
+			// If someone was outbid, let them know
+			if (currentBid.tel && currentBid.name) {
+				let url = config.server.host + (PORT !== 80 ? ':' + PORT : '');
+
+				client.messages.create({
+					to: currentBid.tel,
+					from: config.twilio.fromNumber,
+					body: `Hey ${ currentBid.name }! You bid on the ${ currentBid.time } massage, ` +
+						`but unfortunately ${ newBid.name } outbid you with £${ newBid.bid }. ` +
+						`Visit ${ url } to rebid!`
+				});
+			}
+		});
 	});
 });
 
@@ -74,14 +100,15 @@ app.post('/api/start', function (req, res) {
 		.then(function (data) {
 			let massage = data[0];
 
-			let exit = 'http://localhost:3000/verify/' + massage.time + '/JUSTGIVING-DONATION-ID';
+			let exit = `${ config.server }:${ PORT }/verify/${ massage.time }/JUSTGIVING-DONATION-ID`;
 			let donateLink = config.justgiving.url + '/4w350m3/donation/direct/' +
-				`charity/${config.justgiving.charity}?amount=${massage.bid}&exitUrl=${exit}`;
+				`charity/${ config.justgiving.charity }?amount=${ massage.bid }&exitUrl=${ exit }`;
 
 			return client.messages.create({
 				to: massage.tel,
 				from: config.twilio.fromNumber,
-				body: `It's time for your massage! Please make your donation (£${massage.bid}) here: ${donateLink}`
+				body: `Hey ${ massage.name }, it's time for your massage! Please` +
+					`make your donation (£${ massage.bid }) here: ${ donateLink }`
 			});
 		})
 		.then(function () {
@@ -145,12 +172,11 @@ app.use(function (req, res) {
 	res.sendFile(path.join(__dirname, '../app/index.html'));
 });
 
-let port = argv.port || config.server.port;
-let serverPromise = bluebird.promisify(app.listen.bind(app))(port);
+let serverPromise = bluebird.promisify(app.listen.bind(app))(PORT);
 
 bluebird.join(mongoPromise, serverPromise)
 	.then(function () {
-		console.log('Server started on port %s!', argv.port);
+		console.log('Server started on port %s!', PORT);
 	})
 	.catch(function () {
 		console.log('Failed to start :(');

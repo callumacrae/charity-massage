@@ -11,7 +11,7 @@ massages.controller('MassageController', function (massageFactory, $scope) {
 		});
 });
 
-massages.controller('BiddingController', function (massageFactory, $scope, $stateParams) {
+massages.controller('BiddingController', function (massageFactory, $scope, $stateParams, $state) {
 	let time = $scope.time = $stateParams.time;
 	$scope.data = { time: time };
 
@@ -20,17 +20,24 @@ massages.controller('BiddingController', function (massageFactory, $scope, $stat
 			.then(function (data) {
 				if (data.success) {
 					$scope.booked = true;
+				} else {
+					$scope.slot = data.currentBid;
+					$scope.fail = true;
 				}
 			});
 	};
 
 	massageFactory.getMassages()
 		.then(function (data) {
-			$scope.slot = _.find(data.massages, function (massage) {
+			let slot = $scope.slot = _.find(data.massages, function (massage) {
 				return massage.time === time;
 			});
 
-			$scope.data.bid = Math.ceil($scope.slot.bid * 1.4);
+			if (slot.claimed) {
+				$state.go('massages');
+			}
+
+			$scope.data.bid = Math.ceil(slot.bid * 1.4);
 
 			if ($scope.data.bid === 0) {
 				$scope.data.bid = 3;
