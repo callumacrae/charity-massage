@@ -19,6 +19,11 @@ module.exports = function ($urlRouterProvider, $stateProvider, $locationProvider
 			templateUrl: 'partials/admin.html',
 			controller: 'AdminController'
 		})
+		.state('login', {
+			url: '/admin/login',
+			templateUrl: 'partials/admin-login.html',
+			controller: 'AdminLoginController'
+		})
 		.state('verify', {
 			url: '/verify/{time:\\d{2}:\\d{2}}/{donationId}',
 			templateUrl: 'partials/verify.html',

@@ -1,7 +1,13 @@
 server:
   port: 3000
+  sessionSecret:
 twilio:
   accountSid:
   authToken:
-  fromNumber: +441183100840
-charity:
+  fromNumber:
+justgiving:
+  url: http://v3-sandbox.justgiving.com
+  apiUrl: https://api-sandbox.justgiving.com
+  charity:
+  appId:
+password:

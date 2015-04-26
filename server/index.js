@@ -10,6 +10,7 @@ const express = require('express');
 const fs = require('graceful-fs');
 const got = bluebird.promisify(require('got'));
 const MongoClient = require('mongodb').MongoClient;
+const session = require('express-session');
 const twilio = require('twilio');
 const yaml = require('js-yaml');
 
@@ -21,6 +22,9 @@ let env = process.env.NODE_ENV || 'development';
 if (env === 'development') {
 	app.use(errorHandler());
 }
+
+app.use(bodyParser.json());
+app.use(session({ secret: config.server.sessionSecret }));
 
 let collection;
 let mongoConnect = bluebird.promisify(MongoClient.connect);
@@ -45,12 +49,12 @@ app.get('/api', function (req, res) {
 		});
 
 		res.send({
-			massages: _.sortBy(filteredData, 'time')
+			massages: _.sortBy(filteredData, 'time'),
+			admin: req.session.loggedIn
 		});
 	});
 });
 
-app.use(bodyParser.json());
 app.post('/api', function (req, res) {
 	let data = req.body;
 
@@ -88,11 +92,26 @@ app.post('/api/start', function (req, res) {
 		});
 });
 
+app.post('/api/login', function (req, res) {
+	let loginCorrect = (req.body.password === config.password);
+	if (loginCorrect) {
+		req.session.loggedIn = true;
+	}
+
+	res.send({ success: loginCorrect });
+});
+app.get('/api/logout', function (req, res) {
+	req.session.loggedIn = false;
+	res.send({ success: true });
+});
+
 app.post('/api/verify', function (req, res) {
+	if (!req.session.loggedIn) {
+		return res.send({ success: false, login: true });
+	}
+
 	let time = req.body.time;
-
 	let actualAmount;
-
 	let url = config.justgiving.apiUrl + '/' + config.justgiving.appId +
 		'/v1/donation/' + req.body.donationId;
 
