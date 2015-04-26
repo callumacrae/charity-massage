@@ -21,6 +21,12 @@ header {
 		background-color: white;
 		border: 1px lightgray solid;
 		border-radius: 5px;
+
+		cursor: pointer;
+
+		&:hover {
+			background-color: #F7F9FF;
+		}
 	}
 }
 
@@ -44,4 +50,8 @@ td {
 
 .align-center {
 	text-align: center;
+}
+
+[ui-sref] {
+	cursor: pointer;
 }
