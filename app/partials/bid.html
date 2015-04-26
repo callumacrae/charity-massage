@@ -4,8 +4,9 @@
 	<p>
 		<span ng-show="slot.bid">The current bid is £{{ slot.bid }} by {{ slot.name }}.</span>
 		<span ng-hide="slot.bid">This slot is free!</span>
-		What would you like to bid?
+		<br>What would you like to bid?
 	</p>
+	<p>If you win, we will text you to let you know when to donate and come for your massage.</p>
 </header>
 
 <form ng-submit="makeBid()">
