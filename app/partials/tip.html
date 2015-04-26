@@ -1,0 +1,11 @@
+<header>
+	<h1>Tip the massage people</h1>
+</header>
+
+<form method="post" action="/api/braintree" ng-hide="tipped">
+	<div id="dropin"></div>
+	<label>Tip value: <span class="in-field">£</span><input type="number" ng-model="tip"></label>
+	<button class="button-primary u-full-width">Tip the masseuses and masseurs</button>
+</form>
+<p ng-show="tipped" class="align-center">Thanks for your tip!</p>
+<a ui-sref="massages">Return to the schedule</a>

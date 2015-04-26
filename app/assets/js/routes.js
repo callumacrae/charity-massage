@@ -28,6 +28,11 @@ module.exports = function ($urlRouterProvider, $stateProvider, $locationProvider
 			url: '/verify/{time:\\d{2}:\\d{2}}/{donationId}',
 			templateUrl: 'partials/verify.html',
 			controller: 'VerifyController'
+		})
+		.state('tip', {
+			url: '/tip',
+			templateUrl: 'partials/tip.html',
+			controller: 'TipController'
 		});
 
 	$locationProvider.html5Mode(true);
