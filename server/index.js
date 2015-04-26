@@ -100,6 +100,7 @@ app.post('/api/login', function (req, res) {
 
 	res.send({ success: loginCorrect });
 });
+
 app.get('/api/logout', function (req, res) {
 	req.session.loggedIn = false;
 	res.send({ success: true });

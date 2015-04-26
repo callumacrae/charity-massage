@@ -5,4 +5,6 @@
 <form ng-submit="login()">
 	<p><label>Password: <input ng-model="password" type="password"></label></p>
 	<button class="button-primary u-full-width">Log in</button>
+
+	<p ng-show="failed">Failed to login. Try again.</p>
 </form>

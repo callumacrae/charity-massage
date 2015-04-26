@@ -4,13 +4,20 @@ const angular = require('angular');
 
 let admin = angular.module('massages.admin', ['massages.massages']);
 
-admin.controller('AdminController', function (adminFactory, massageFactory, $scope, $state) {
+admin.controller('AdminController', function (adminFactory, massageFactory, $scope, $state, $http) {
 	$scope.startMassage = function (massage) {
 		adminFactory.startMassage(massage)
 			.then(function (data) {
 				if (data.success) {
 					massage.started = true;
 				}
+			});
+	};
+
+	$scope.logout = function () {
+		$http.get('/api/logout')
+			.success(function () {
+				$state.go('massages');
 			});
 	};
 
@@ -30,6 +37,8 @@ admin.controller('AdminLoginController', function ($scope, $http, $state) {
 			.success(function (data) {
 				if (data.success) {
 					$state.go('admin');
+				} else {
+					$scope.failed = true;
 				}
 			});
 	};
