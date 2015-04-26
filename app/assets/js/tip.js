@@ -1,8 +1,7 @@
-/* global braintree */
-
 'use strict';
 
 const angular = require('angular');
+const braintree = require('braintree-web');
 const massages = angular.module('massages.tip', []);
 
 massages.controller('TipController', function (massageFactory, $scope, $http) {
