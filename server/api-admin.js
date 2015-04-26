@@ -18,7 +18,7 @@ module.exports = function (app, db) {
 
 				return sendMessage({
 					to: massage.tel,
-					body: `Hey ${ massage.name }, it's time for your massage! Please` +
+					body: `Hey ${ massage.name }, it's time for your massage! Please ` +
 					`make your donation (£${ massage.bid }) here: ${ donateLink }`
 				});
 			})
