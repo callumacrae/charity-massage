@@ -12,7 +12,7 @@ module.exports = function (app, db) {
 			.then(function (data) {
 				let massage = data[0];
 
-				let exit = `${ config.server }:${ app._PORT }/verify/${ massage.time }/JUSTGIVING-DONATION-ID`;
+				let exit = `${ config.server.host }:${ app._PORT }/verify/${ massage.time }/JUSTGIVING-DONATION-ID`;
 				let donateLink = config.justgiving.url + '/4w350m3/donation/direct/' +
 					`charity/${ config.justgiving.charity }?amount=${ massage.bid }&exitUrl=${ exit }`;
 
